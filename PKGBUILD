@@ -1,0 +1,27 @@
+# Maintainer: Maxwell Pray a.k.a. Synthead <synthead@gmail.com>
+# Contributor: Douglas Soares de Andrade <dsa@aur.archlinux.org>
+# Contributor: Markku <rasat@user-contributions.org>
+# Contributor: Jacek Roszkowski <j.roszk@gmail.com>
+
+pkgname=mysql-ruby1.8
+pkgver=2.8.2
+pkgrel=5
+pkgdesc="The MySQL API module for Ruby. It provides the same functions for Ruby programs that the MySQL C API provides for C programs."
+arch=('i686' 'x86_64')
+license=('GPL')
+url="http://www.tmtm.org/en/mysql/ruby/"
+depends=('ruby1.8' 'libmysqlclient')
+source=("http://tmtm.org/downloads/mysql/ruby/${pkgname%1.8}-$pkgver.tar.gz")
+md5sums=('eb998b89b7e391cffe0a1f84bd426f9b')
+
+build() {
+	cd "$srcdir/${pkgname%1.8}-$pkgver"
+	ruby-1.8 extconf.rb
+	ruby-1.8 extconf.rb --with-mysql-config
+	make
+}
+
+package() {
+	cd "$srcdir/${pkgname%1.8}-$pkgver"
+	make DESTDIR="$pkgdir" install
+}
